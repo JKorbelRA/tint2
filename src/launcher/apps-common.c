@@ -99,7 +99,9 @@ void expand_exec(DesktopEntry *entry, const char *path)
                             }
                             break;
                 case 'F':
-                case 'f':   snprintf(q, buf_size-1, "%c%c", '%', *p);
+                case 'f':   
+                            fprintf(stderr, "maxlen: %zu\n ptr: %p\n", buf_size, p );
+                snprintf(q, buf_size-1, "%c%c", '%', *p);
                             q += 2;
                             buf_size -= 2;
                             break;
