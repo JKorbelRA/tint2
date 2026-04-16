@@ -99,11 +99,12 @@ void expand_exec(DesktopEntry *entry, const char *path)
                             }
                             break;
                 case 'F':
-                case 'f':   
-                            q[0] = '%';
-                            q[1] = *p;
-                            q += 2;
-                            buf_size -= 2;
+                case 'f':   if (buf_size >= 2) {
+                                q[0] = '%';
+                                q[1] = *p;
+                                q += 2;
+                                buf_size -= 2;
+                            }
                             break;
                 case '\0':  goto endloop;
                 }
