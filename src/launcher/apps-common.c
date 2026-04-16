@@ -57,7 +57,7 @@ void expand_exec(DesktopEntry *entry, const char *path)
         size_t buf_size = strlen(entry->exec)
                         + (entry->name ? strlen(entry->name) : 1)
                         + (entry->icon ? strlen(entry->icon) : 1) + 100;
-        char *exec2 = calloc(buf_size, 1);
+        char *exec2 = calloc(buf_size+1, 1);
         char *p, *q;
         // p will never point to an escaped char
         for (p = entry->exec, q = exec2; *p; p++, q++)
@@ -69,7 +69,7 @@ void expand_exec(DesktopEntry *entry, const char *path)
                 if (*p == '%') // For % we delete the backslash, i.e. write % over it
                     q--;
                 *q = *p;
-                if (!*p)
+                if (*p == '\0')
                     break;
                 continue;
             }
@@ -100,8 +100,8 @@ void expand_exec(DesktopEntry *entry, const char *path)
                             break;
                 case 'F':
                 case 'f':   
-                            fprintf(stderr, "maxlen: %zu\n ptr: %p\n", buf_size, p );
-                snprintf(q, buf_size-1, "%c%c", '%', *p);
+                            q[0] = '%';
+                            q[1] = *p;
                             q += 2;
                             buf_size -= 2;
                             break;
